@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Maven project template generator</title>
+<meta charset="UTF-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+<link rel="shortcut icon" type="image/png"
+	th:href="@{/images/favicon.ico}" />
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h1>Maven project template generator</h1>
+		</div>
+		<form th:action="@{/}" th:object="${pomTemplate}" method="post"
+			target="_blank">
+			<div class="row">
+				<div class="col-xs-6">
+					<h3>Project metadata</h3>
+					<hr />
+					<div class="form-group">
+						<label for="groupId">Group</label> <input type="text"
+							class="form-control" th:field="*{groupId}" />
+					</div>
+					<div class="form-group">
+						<label for="artifactId">Artifact</label> <input type="text"
+							class="form-control" th:field="*{artifactId}" />
+					</div>
+					<div class="form-group">
+						<label for="packageName">Package</label> <input type="text"
+							class="form-control" th:field="*{packageName}" />
+					</div>
+					<div class="form-group">
+						<label for="version">Version</label> <input type="text"
+							class="form-control" th:field="*{version}" />
+					</div>
+					<div class="form-group">
+						<label for="name">Name</label> <input type="text"
+							class="form-control" th:field="*{name}" />
+					</div>
+					<div class="form-group">
+						<label for="description">Description</label> <input type="text"
+							class="form-control" th:field="*{description}" />
+					</div>
+					<div class="form-group">
+						<label for="packaging">Packaging</label> <select
+							class="form-control" th:field="*{packaging}">
+							<option th:each="packagingType : ${packagingTypes}"
+								th:value="${packagingType.name()}"
+								th:text="${packagingType.toString()}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="javaVersion">Java version</label> <select
+							class="form-control" th:field="*{javaVersion}">
+							<option th:each="javaVersion : ${javaVersions}"
+								th:value="${javaVersion.name()}"
+								th:text="${javaVersion.toString()}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="parent">Project type</label> <select
+							class="form-control" th:field="*{parent}">
+							<option th:each="parent : ${parents}" th:value="${parent.name()}"
+								th:text="${parent.toString()}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="url">URL</label> <input type="url"
+							class="form-control" th:field="*{url}"
+							placeholder="http://example.com" />
+					</div>
+					<div class="form-group">
+						<label for="license">License</label> <select class="form-control"
+							th:field="*{license}">
+							<option th:each="license : ${licenses}"
+								th:value="${license.name()}" th:text="${license.toString()}"></option>
+						</select>
+					</div>
+					<h3>Developer information</h3>
+					<hr />
+					<div class="form-group">
+						<label for="developer.email">E-mail</label> <input type="email"
+							class="form-control" th:field="*{developer.email}"
+							placeholder="dev@example.com" />
+					</div>
+					<div class="form-group">
+						<label for="developer.name">Name</label> <input type="text"
+							class="form-control" th:field="*{developer.name}"
+							placeholder="John Doe" />
+					</div>
+					<div class="form-group">
+						<label for="developer.url">URL</label> <input type="url"
+							class="form-control" th:field="*{developer.url}"
+							placeholder="http://example.com" />
+					</div>
+					<div class="form-group">
+						<label for="developer.id">Id</label> <input type="text"
+							class="form-control" th:field="*{developer.id}"
+							placeholder="jdoe" />
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<h3>Distribution management</h3>
+					<hr />
+					<div class="checkbox">
+						<label> <input type="checkbox"
+							id="useDistributionManagement" />Use distribution management
+						</label>
+					</div>
+					<div class="hidden" id="useDistributionManagementForm">
+						<div class="form-group">
+							<label for="distributionManagement.id">Id</label> <input
+								type="text" class="form-control"
+								th:field="*{distributionManagement.id}" />
+						</div>
+						<div class="form-group">
+							<label for="distributionManagement.repository">Repository</label>
+							<select class="form-control"
+								th:field="*{distributionManagement.repository}">
+								<option th:each="repository : ${repositories}"
+									th:value="${repository.name()}"
+									th:text="${repository.toString()}"></option>
+							</select>
+						</div>
+					</div>
+					<h3>SCM</h3>
+					<hr />
+					<div class="checkbox">
+						<label> <input type="checkbox" id="useScm" />Use SCM
+						</label>
+					</div>
+					<div class="hidden" id="useScmForm">
+						<div class="form-group">
+							<label for="scm.type">Type</label> <select class="form-control"
+								th:field="*{scm.type}">
+								<option th:each="scm : ${scms}" th:value="${scm.name()}"
+									th:text="${scm.toString()}"></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="scm.relativePath">Relative path</label> <input
+								type="text" class="form-control" th:field="*{scm.relativePath}"
+								placeholder="company/demo" />
+						</div>
+					</div>
+					<h3>Integrations</h3>
+					<hr />
+					<div class="checkbox">
+						<label> <input type="checkbox" th:field="*{useJGitFlow}" />Use
+							<a href="http://jgitflow.bitbucket.org" target="_blank">JGitFlow
+								plugin</a>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label> <input type="checkbox" th:field="*{useTravisCI}" />Use
+							<a href="https://travis-ci.org" target="_blank">Travis CI</a>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label> <input type="checkbox" th:field="*{useCoveralls}" />Use
+							<a href="https://coveralls.io" target="_blank">Coveralls</a>
+						</label>
+					</div>
+					<h3>Include common dependencies</h3>
+					<hr />
+					<div class="checkbox" th:each="dependency, stat : ${dependencies}">
+						<label> <input type="checkbox"
+							th:name="|preselectedDependencies[${stat.index}]|"
+							th:value="${dependency.name()}" /> <th:block
+								th:text="${dependency.toString()}"></th:block>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<hr />
+					<button type="submit" class="btn btn-danger btn-lg center-block">Generate</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

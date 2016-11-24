@@ -1,0 +1,16 @@
+# {{pomTemplate.name}} v{{pomTemplate.version}}
+
+{{#pomTemplate.useTravisCI}}
+[![Build Status](https://travis-ci.org/{{pomTemplate.scm.relativePath}}.svg?branch=master)](https://travis-ci.org/{{pomTemplate.scm.relativePath}})
+{{/pomTemplate.useTravisCI}}
+{{#pomTemplate.useCoveralls}}
+[![Coverage Status](https://coveralls.io/repos/{{pomTemplate.scm.type}}/{{pomTemplate.scm.relativePath}}/badge.svg)](https://coveralls.io/{{pomTemplate.scm.type}}/{{pomTemplate.scm.relativePath}})
+{{/pomTemplate.useCoveralls}}
+
+## Description
+
+{{pomTemplate.description}}
+
+## Usage
+
+// TODO

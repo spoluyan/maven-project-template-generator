@@ -1,0 +1,9 @@
+spring:
+  main:
+    banner-mode: "off"
+  thymeleaf:
+    cache: true
+logging:
+  level:
+    org.springframework: "WARN"
+    pw.spn: "WARN"
